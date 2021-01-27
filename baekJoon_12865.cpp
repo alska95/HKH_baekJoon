@@ -32,3 +32,4 @@ int main() {
 	}
 
 	cout << d[n][k] << endl;
+}
