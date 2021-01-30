@@ -1,40 +1,44 @@
 #include <iostream>
+#include <algorithm>
 #include <vector>
 #include <cmath>
-#include <algorithm>
 using namespace std;
-
-int main(void) {
-	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	int N, temp, mean, mode = 0, min, max = 0;
-	bool isSecond = false;
-	cin >> N;
-	vector<int> vec(N);
-	vector<int> vec2(8001, 0);
-	for (int i = 0; i < N; i++) {
-		cin >> vec[i];
-		mean += vec[i];
-		temp = (vec[i] <= 0) ? abs(vec[i]) : vec[i] + 4000;
-		vec2[temp]++;
-		if (vec2[temp] > max)
-			max = vec2[temp];
+vector<int> arr;
+int main() {
+	int num, tmp, range, middle = 0, most_val, mean = 0;
+	int most = -9999;
+	int number[8001] = { 0, };
+	bool not_first = false;
+	cin >> num;
+	for (int i = 0; i < num; i++)
+	{
+		cin >> tmp;
+		arr.push_back(tmp);
+		mean += tmp;
+		number[tmp + 4000]++;
 	}
-	sort(vec.begin(), vec.end());
-
-	for (int i = -4000; i < 4001; i++) {
-		temp = i <= 0 ? abs(i) : i + 4000;
-		if (vec2[temp] == max) {
-			mode = i;
-			if (isSecond)
-				break;
-			isSecond = true;
+	sort(arr.begin(), arr.end());
+	for (int i = 0; i < 8001; i++)
+	{
+		if (number[i] == 0)
+			continue;
+		if (number[i] == most)
+		{
+			if (not_first)
+			{
+				most_val = i - 4000;
+				not_first = false;
+			}
+		}
+		if (number[i] > most)
+		{
+			most = number[i];
+			most_val = i - 4000;
+			not_first = true;
 		}
 	}
-
-	cout << round(mean / (double)N) << '\n';
-	cout << vec[round(N / 2)] << '\n';
-	cout << mode << '\n';
-	min = vec[0];
-	max = vec[vec.size() - 1];
-	cout << max - min << '\n';
+	middle = arr[arr.size() / 2];
+	mean = round((float)mean / num);
+	range = arr.back() - arr.front();
+	cout << mean << '\n' << middle << '\n' << most_val << '\n' << range;
 }
