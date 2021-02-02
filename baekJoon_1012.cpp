@@ -1,60 +1,56 @@
 #include <iostream>
-#define MAX 51
-
+#include <string.h>
 using namespace std;
 
-int nodeRowNum, nodeColNum, node[MAX][MAX], visited[MAX][MAX];
+int dy[4] = { 1,-1,0,0 };
+int dx[4] = { 0,0,1,-1 };
+int M, N, K;
+int arr[50][50] = { 0 };
+int visited[50][50] = { 0 };
 
-int dx[4] = { 0 ,1,0,-1 };
-int dy[4] = { 1,0,-1,0 };
-
-void dfsFarm(int y, int x) {
-
-	visited[y][x] = 1;
+void dfs(int y, int x) {
 
 	for (int i = 0; i < 4; i++) {
-		int newX = dx[i] + x;
-		int newY = dy[i] + y;
+		int ny = y + dy[i];
+		int nx = x + dx[i];
 
-		if (newX < nodeColNum && newX >= 0 && newY < nodeRowNum && newY >= 0) {
-			if (visited[newY][newX] != 1 && node[newY][newX] == 1) {
-				//visited[newY][newX] = 1;
-				dfsFarm(newY, newX);
-			}
+		if (ny < 0 || ny >= N || nx < 0 || nx >= M)
+			continue;
 
+		if (arr[ny][nx] && !visited[ny][nx]) {
+			visited[ny][nx]++;
+			dfs(ny, nx);
 		}
 	}
 }
-
-
 int main() {
-	int testCase;
-	int x, y;
-	int farmCounter[1000] = { 0, };
-	int vaccine;
+	int T, x, y;
+	cin >> T;
 
-	cin >> testCase;
-	///////////////////////////
-	for (int z = 0; z < testCase; z++) {
-		cin >> nodeColNum >> nodeRowNum >> vaccine;
+	for (int testCase = 0; testCase < T; testCase++) {
+		scanf("%d %d %d", &M, &N, &K);
 
-		for (int i = 0; i < vaccine; i++) {
-			cin >> x >> y;
-			node[y][x] = 1;
+		memset(arr, 0, sizeof(arr));
+		memset(visited, 0, sizeof(visited));
+
+		int ans = 0; //Áö··ÀÌ °³¼ö
+
+		for (int i = 0; i < K; i++) {
+			scanf("%d %d", &x, &y);
+			arr[y][x] = 1;
 		}
 
-		for (int i = 0; i < nodeRowNum; i++) {
-			for (int j = 0; j < nodeColNum; j++) {
-				if (visited[i][j] != 1 && node[i][j] == 1) {
-					//visited[i][j] = 1;
-					farmCounter[z]++;
-					dfsFarm(i, j);
+		for (int i = 0; i < N; i++)
+			for (int j = 0; j < M; j++)
+				if (arr[i][j] && !visited[i][j]) {
+
+					ans++;
+					visited[i][j]++;
+					dfs(i, j);
+
 				}
-			}
-		}
+
+		cout << ans << endl;
 	}
-	///////////////////////////
-	for (int i = 0; i < testCase; i++) {
-		cout << farmCounter[i] << '\n';
-	}
+	return 0;
 }
