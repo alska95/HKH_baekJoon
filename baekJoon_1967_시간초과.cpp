@@ -59,11 +59,24 @@ int dijkstra(int start, int cost) {
 }
 
 void treeDijkstra(int start) {
-	int mostA[2] = { 0 , };
-	for (int i = 0; i < treeV[start].size(); i++) {
-		mostA[i] = dijkstra(treeV[start][i].node, treeV[start][i].cost);
+
+	int mostF = 0;
+	int mostS = 0;
+
+	int size = treeV[start].size();
+	if (size == 0) {
 	}
-	mostDiameter[start] = mostA[0] + mostA[1];
+	else if (size == 1) {
+		mostS = dijkstra(treeV[start][0].node, treeV[start][0].cost);
+	}
+	else {
+		mostF = dijkstra(treeV[start][0].node, treeV[start][0].cost);
+		mostS = dijkstra(treeV[start][1].node, treeV[start][1].cost);
+	}
+
+	mostDiameter[start] = mostF + mostS;
+
+
 }
 
 
