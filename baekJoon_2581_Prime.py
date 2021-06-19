@@ -8,6 +8,7 @@ for i in range(3, N + 1):
     for p in prime:
         if i % p == 0:
             primeFlag = 0
+            break
     if primeFlag == 1:
         prime.append(i)
 
