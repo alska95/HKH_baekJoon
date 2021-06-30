@@ -8,8 +8,9 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
         String str = "";
-        while((str = bf.readLine())!= null){
-            System.out.println(str);
+        String tmp = "";
+        while((tmp = bf.readLine())!= null){
+            str += tmp + "\n";
         }
-
+        System.out.println(str);
     }
