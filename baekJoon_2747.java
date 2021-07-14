@@ -1,0 +1,16 @@
+import java.io.*;
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int n = Integer.parseInt(br.readLine());
+        int []fib = new int[n+1];
+        fib[0] = 0;
+        fib[1] = 1;
+        for(int i = 2 ; i<= n ; i++){
+            fib[i] = fib[i-1]+fib[i-2];
+        }
+        bw.write(fib[n]+"");
+        bw.close();
+    }
+}
