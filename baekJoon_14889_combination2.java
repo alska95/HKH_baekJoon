@@ -48,7 +48,8 @@ public class Main{
         for(int i = start ; i <= n ; i++){
             visited[i] = 1;
             Combination(i+1 , r-1 , n , board , visited);
-            //start : i (i false true정하면 볼일 없기에 i+1) // r의 개수만큼 뽑아냄
+            //start : i (i false true정하면 볼일 없기에 i+1)
+            // r의 개수만큼 뽑아냄
             visited[i] = 0;
         }
     }
