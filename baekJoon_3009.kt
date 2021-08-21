@@ -27,6 +27,7 @@ fun main(){
     }else{
         result[0] = a[1][0]
     }
+
     var y:Int = result[1]
     var x:Int = result[0]
     println("$x $y")
