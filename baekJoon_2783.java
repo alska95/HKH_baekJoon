@@ -16,5 +16,4 @@ public class Main {
 		bw.write(Math.round(pq.poll()*100000.0)/100.0+"");
 		bw.close();
 	}
-
 }
