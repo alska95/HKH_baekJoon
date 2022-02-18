@@ -5,16 +5,19 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        int max = 0;
-        int sum = 0;
-        int t = Integer.parseInt(br.readLine());
-        StringTokenizer st = new StringTokenizer(br.readLine() , " ");
-        for(int i = 0 ; i < t ; i++){
-            int target = Integer.parseInt(st.nextToken());
-            sum+=target;
-            max = Math.max(max,target);
+        StringBuilder sb = new StringBuilder();
+        while(true){
+            StringTokenizer st = new StringTokenizer(br.readLine() , " ");
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            int c = Integer.parseInt(st.nextToken());
+            int d = Integer.parseInt(st.nextToken());
+            if(a == 0 && d == 0)
+                break;
+            sb.append(c-b).append(" ").append(d-a).append("\n");
         }
-        bw.write(sum-max+"");
+
+        bw.write(sb.toString());
         bw.close();
     }
 
