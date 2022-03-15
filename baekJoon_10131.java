@@ -11,7 +11,6 @@ public class Main{
             bw.write(Pattern.matches("(100+1+|01)+", targetString) ? "YES\n" : "NO\n");
             bw.flush();
         }
-        
         bw.close();
     }
 }
