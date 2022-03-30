@@ -1,30 +1,29 @@
-
 import java.io.*;
-import java.util.*;
+import java.util.StringTokenizer;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        int a = Integer.parseInt(st.nextToken());
-        int b = Integer.parseInt(st.nextToken());
-        ArrayList<Integer> board = new ArrayList<>();
-        board.add(0);
-        for(int i = 1 ; i < 100 ; i++){
-            for(int j = 0 ; j < i ; j++){
-                board.add(i);
-                if(board.size()>b)
-                    break;
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+
+        String board[] = new String[n];
+
+
+        for(int i = 0 ; i < n ; i++){
+            board[i] = br.readLine();
+        }
+        for(int i = 0 ; i < n ; i ++){
+            for(int j = m-1 ; j >= 0 ; j--){
+                bw.write(board[i].charAt(j));
             }
-            if(board.size()>b)
-                break;
+            bw.write("\n");
         }
-        int result = 0;
-        for(int i = a ; i <= b ; i++){
-            result+=board.get(i);
-        }
-        bw.write(result+"");
         bw.close();
     }
 }
