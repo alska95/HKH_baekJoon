@@ -9,8 +9,7 @@ public class Main {
         String h = br.readLine();
         String target = br.readLine();
 
-        Pattern pattern = Pattern.compile(target);
-        Matcher matcher = pattern.matcher(h);
+        Matcher matcher = Pattern.compile(target).matcher(h);
         int count = 0;
         while(matcher.find()){
             count++;
