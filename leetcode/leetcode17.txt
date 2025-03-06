@@ -1,0 +1,42 @@
+class Solution {
+    class Entry {
+        String current;
+        int getDigitIndex() {
+            return current.length();
+        }
+
+        Entry(String current) {
+            this.current = current;
+        }
+    }
+    public List<String> letterCombinations(String digits) {
+        char[][] member = new char[][]{{},{}
+        ,{'a', 'b', 'c'}
+        ,{'d', 'e', 'f'}
+        ,{'g', 'h', 'i'}
+        ,{'j', 'k', 'l'}
+        ,{'m', 'n', 'o'}
+        ,{'p', 'q', 'r', 's'}
+        ,{'t', 'u', 'v'}
+        ,{'w', 'x', 'y', 'z'}
+        };
+
+        List<String> answer = new ArrayList<>();
+        Queue<Entry> q = new LinkedList<>();
+        q.add(new Entry(""));
+        while(!q.isEmpty()) {
+            Entry entry = q.poll();
+            if (entry.getDigitIndex() == digits.length()) {
+                if (!entry.current.isEmpty()) {
+                    answer.add(entry.current);
+                }
+            } else {
+                char[] currentMember = member[digits.charAt(entry.getDigitIndex()) - '0'];
+                for (int i = 0 ; i < currentMember.length ; i++) {
+                    q.add(new Entry(entry.current + currentMember[i]));
+                }
+            }
+        }
+        return answer;
+    }
+}
