@@ -1,0 +1,37 @@
+class Solution {
+    public int[] canSeePersonsCount(int[] heights) {
+        int[] firstHigherIndexRight = new int[heights.length];
+
+        for (int i = heights.length - 1 ; i >= 0 ; i-- ) {
+            int tempIndex = i + 1;
+            while (true) {
+                if (tempIndex > heights.length - 1) {
+                    firstHigherIndexRight[i] = heights.length;
+                    break;
+                }
+                if (heights[tempIndex] >= heights[i]) {
+                    firstHigherIndexRight[i] = tempIndex;
+                    break;
+                } else {
+                    tempIndex = firstHigherIndexRight[tempIndex];
+                }
+            }
+        }
+
+        int[] answer = new int[heights.length];
+        for (int i = 0; i < heights.length - 1 ; i++) {
+            int endIndex = firstHigherIndexRight[i];
+            int nextIndex = i + 1;
+            int count = 1;
+            while (nextIndex < endIndex) {
+                nextIndex = firstHigherIndexRight[nextIndex];
+                if (nextIndex >= heights.length) {
+                    break;
+                }
+                count++;
+            }
+            answer[i] = count;
+        }
+        return answer;
+    }
+}
