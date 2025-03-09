@@ -1,5 +1,5 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("args = " + ('1' - '0'));
+        System.out.println("args = " + Integer.parseInt("01"));
     }
 }

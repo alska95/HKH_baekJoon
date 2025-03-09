@@ -1,0 +1,22 @@
+class Solution {
+    public int reverse(int x) {
+        boolean negative = x < 0;
+        if (negative) {
+            x *= -1;
+        }
+        long answer = 0;
+        while (x > 0) {
+            answer *= 10;
+            answer += x % 10;
+            x /= 10;
+        }
+        if (answer > (long)Integer.MAX_VALUE) {
+            return 0;
+        } else {
+            if (negative) {
+                return - (int) answer;
+            }
+            return (int) answer;
+        }
+    }
+}
