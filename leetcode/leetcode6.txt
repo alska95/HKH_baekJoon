@@ -1,0 +1,56 @@
+/*
+3 -> total of 4 pattren
+0   4   8  //4
+1 3 5 7 9  // 2 2
+2   6   10 // 4
+
+*/
+//4 -> total of 6 pattern --> s * nums - 2
+//4: 0   6    12 6
+//   1  57  1113 4 / 2
+//   2 4 8 10 14 2 / 4
+//   3   9    15 6
+
+/* total of 8
+0    8       16  8
+1   79     1517  6 2
+2  6 10  14  18  4 4
+3 5  1113    19  2 6
+4    12      20  8
+*/
+
+
+/* total of 10
+0     10        20  //10
+1    911      19    8 2
+2   8 12    18      6 4
+3  7  13  17        4 6
+4 6   1416          2 8
+5     15            10
+*/
+class Solution {
+    public String convert(String s, int numRows) {
+        if (numRows == 1) {
+            return s;
+        }
+        StringBuilder answer = new StringBuilder();
+        int patternTotal = numRows * 2 - 2;
+
+        for (int row = 0 ; row < numRows ; row++) {
+            int firstJump = patternTotal - (row * 2);
+            int secondJump = patternTotal - firstJump;
+            int tempIndex = row;
+            while (tempIndex < s.length()) {
+                if (firstJump != 0) {
+                    answer.append(s.charAt(tempIndex));
+                    tempIndex += firstJump;
+                }
+                if (secondJump != 0 && tempIndex < s.length()) {
+                    answer.append(s.charAt(tempIndex));
+                    tempIndex += secondJump;
+                }
+            }
+        }
+        return answer.toString();
+    }
+}
