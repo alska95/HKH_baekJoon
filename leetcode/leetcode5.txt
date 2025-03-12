@@ -1,0 +1,63 @@
+/*
+bbaacdbdkacaab
+ baacakdbdcaabb
+*/
+
+class Solution {
+    public String longestPalindrome(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0 ; i < s.length() ; i++) {
+            sb.append(s.charAt(s.length() - 1 - i));
+        }
+        String reversed = sb.toString();
+        String a = findLongest(s, reversed);
+        String b = findLongest(reversed, s);
+        if (a.length() > b.length()) {
+            return a;
+        } else {
+            return b;
+        }
+    }
+
+    public String findLongest(String s, String reversed) {
+        int maxLength = 0;
+        String answer = "";
+        for (int i = s.length() - 1 ; i >= 0; i--) {
+            int reversedI = s.length() - 1 - i;
+            int length = reversedI + 1;
+            String sub = s.substring(i, s.length());
+            String reversedSub = reversed.substring(0, length);
+
+            String buffer = "";
+            for (int j = 0 ; j < length ; j++) {
+                if(sub.charAt(j) == reversedSub.charAt(j)) {
+                    buffer += sub.charAt(j);
+                } else {
+                    if (buffer.length() > maxLength && checkBufferValid(buffer)) {
+                        maxLength = buffer.length();
+                        answer = buffer;
+                    }
+                    buffer = "";
+                }
+            }
+            if (!buffer.isEmpty() && buffer.length() > maxLength && checkBufferValid(buffer) ) {
+                maxLength = buffer.length();
+                answer = buffer;
+            }
+        }
+        return answer;
+    }
+
+    public boolean checkBufferValid(String buffer) {
+        int left = 0;
+        int right = buffer.length() - 1;
+        while (left < right) {
+            if(buffer.charAt(left) != buffer.charAt(right)) {
+                return false;
+            }
+            left ++;
+            right --;
+        }
+        return true;
+    }
+}

@@ -1,5 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("args = " + Integer.parseInt("01"));
+        StringBuilder sb = new StringBuilder();
+        sb.length();
+        System.out.println("args = " + ("01").substring(0, 2));
     }
 }
