@@ -1,0 +1,18 @@
+class Solution {
+    public boolean isHappy(int n) {
+        Set<Integer> visited = new HashSet<>();
+        while (!visited.contains(n)) {
+            visited.add(n);
+            if (n == 1) {
+                return true;
+            }
+            int temp = 0;
+            while (n > 0) {
+                temp += Math.pow(n % 10, 2);
+                n /= 10;
+            }
+            n = temp;
+        }
+        return false;
+    }
+}
