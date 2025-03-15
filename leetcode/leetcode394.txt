@@ -1,0 +1,42 @@
+class Solution {
+    public String decodeString(String s) {
+        return decode(1, "", "1[" + s + ']');
+    }
+
+    public String decode(int repeat, String prefix, String afterString) {
+        String nextPrefix = "";
+        for (int i = 0 ; i < afterString.length() ; i++) {
+            char currentChar = afterString.charAt(i);
+            if(currentChar == ']') {
+                if (i < afterString.length() - 1) {
+                    String nextAfterString = afterString.substring(i + 1, afterString.length());
+                    return prefix + decode(1, prefix, nextAfterString);
+                }
+                return repeatString(nextPrefix, repeat);
+            }
+            if(currentChar >= '0' && currentChar <= '9') {
+                String repeatBuffer = "" + currentChar;
+                i++;
+                while(afterString.charAt(i) >= '0' && afterString.charAt(i) <= '9') {
+                    repeatBuffer += afterString.charAt(i);
+                    i++;
+                }
+                int nextRepeat = Integer.parseInt(repeatBuffer);
+                String nextAfterString = afterString.substring(i + 1, afterString.length());
+                String completeString = prefix + decode(nextRepeat, nextPrefix, nextAfterString);
+                return repeatString(completeString, repeat);
+            } else {
+                nextPrefix += currentChar;
+            }
+        }
+        throw new IllegalArgumentException("no ']' at the end."); //doesn't happen
+    }
+
+    public String repeatString(String target, int repeat) {
+        String answer = "";
+        for (int i = 0 ; i < repeat ; i++) {
+            answer += target;
+        }
+        return answer;
+    }
+}
