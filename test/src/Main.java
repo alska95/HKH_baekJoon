@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     static class Node {
@@ -21,5 +23,8 @@ public class Main {
         System.out.println("first = " + node);
         System.out.println("temp2 = " + tempNode);
         System.out.println("second = " + second);
+        List<Integer> startList = new ArrayList<>();
+        int[] array = startList.stream().sorted().mapToInt(a -> a).toArray();
+
     }
 }
