@@ -11,56 +11,22 @@ class Solution {
         startList = startList.stream().sorted().toList();
         endList = endList.stream().sorted().toList();
 
-        for (int i = 0 ; i < intervals.length; i++) {
-            int startCount = findCountBetween(startList, intervals[i][0], intervals[i][1]);
-            int endCount = findCountBetween(endList, intervals[i][0], intervals[i][1]);
-            int roomCount = Math.abs(endCount - startCount) + 1;
-            if (roomCount > max) {
-                max = roomCount;
+        int startIndex = 0;
+        int endIndex = 0;
+        int depth = 0;
+
+        while (startIndex < startList.size() || endIndex < endList.size()) {
+            if (startIndex < startList.size() && startList.get(startIndex) < endList.get(endIndex)) {
+                depth++;
+                if(depth > max) {
+                    max = depth;
+                }
+                startIndex++;
+            } else {
+                depth--;
+                endIndex++;
             }
         }
         return max;
-    }
-
-    public int findCountBetween(List<Integer> list, int start, int end) {
-        int startIndex = searchIndexBinary(list, start, true);
-        int endIndex = searchIndexBinary(list, end, false);
-        return endIndex - startIndex + 1;
-    }
-
-    public int searchIndexBinary(List<Integer> list, int target, boolean searchStart) {
-        int left = 0;
-        int right = list.size() - 1;
-        int floorIndex = 0;
-        int topIndex = 0;
-        int targetIndex = 0;
-        while (left <= right) {
-            int mid = (left + right) / 2;
-            if (list.get(mid) < target) {
-                floorIndex = mid;
-                left++;
-            } else if (list.get(mid) > target) {
-                topIndex = mid;
-                right--;
-            } else {
-                targetIndex = mid;
-                break;
-            }
-        }
-
-        if (list.get(targetIndex) != target) {
-            if (searchStart) {
-                targetIndex = topIndex;
-            } else {
-                targetIndex = floorIndex;
-            }
-        }
-
-        if (searchStart) {
-            while(targetIndex > 0 && list.get(targetIndex) == list.get(targetIndex - 1)) targetIndex--;
-        } else {
-            while(targetIndex < list.size() -1 && list.get(targetIndex) == list.get(targetIndex + 1)) targetIndex++;
-        }
-        return targetIndex;
     }
 }
