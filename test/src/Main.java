@@ -24,6 +24,7 @@ public class Main {
         System.out.println("temp2 = " + tempNode);
         System.out.println("second = " + second);
         List<Integer> startList = new ArrayList<>();
+        startList.remove
         int[] array = startList.stream().sorted().mapToInt(a -> a).toArray();
 
     }

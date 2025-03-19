@@ -1,0 +1,57 @@
+/*
+
+00 01 02
+10 11 12
+20 21 22
+*/
+
+class Solution {
+    public List<List<String>> solveNQueens(int n) {
+        List<Integer> invalidX = new ArrayList<>();
+        Set<Integer> invalidX_Y = new HashSet<>();
+        Set<Integer> invalidXPlusY = new HashSet<>();
+
+        List<List<Integer>> answerXList = new ArrayList<>();
+        List<List<String>> finalAnswerList = new ArrayList<>();
+
+        recursive(0, invalidX, invalidX_Y, invalidXPlusY, answerXList, n);
+        for (int i = 0 ; i < answerXList.size() ; i++) {
+            List<String> answerString = new ArrayList<>();
+            List<Integer> answerXCordList = answerXList.get(i);
+            for (int y = 0; y < n; y++) {
+                StringBuilder temp = new StringBuilder();
+                for (int j = 0 ; j < n ; j++) {
+                    if (j == answerXCordList.get(y)) {
+                        temp.append('Q');
+                    } else {
+                        temp.append('.');
+                    }
+                }
+                answerString.add(temp.toString());
+            }
+            finalAnswerList.add(answerString);
+        }
+        return finalAnswerList;
+    }
+
+    public void recursive(int currentY, List<Integer> invalidX, Set<Integer> invalidX_Y, Set<Integer> invalidXPlusY, List<List<Integer>> answerXList, int n) {
+        boolean valid = false;
+        for (int x = 0; x < n ; x++) {
+            int x_y = x - currentY;
+            int xPlusY = x + currentY;
+            if (!invalidX.contains(x) && !invalidX_Y.contains(x_y) && !invalidXPlusY.contains(xPlusY)) {
+                invalidX.add(x);
+                invalidX_Y.add(x_y);
+                invalidXPlusY.add(xPlusY);
+                if (currentY == n - 1) {
+                    answerXList.add(new ArrayList<>(invalidX));
+                } else {
+                    recursive(currentY + 1, invalidX, invalidX_Y, invalidXPlusY, answerXList, n);
+                }
+                invalidX.removeLast();
+                invalidX_Y.remove(x_y);
+                invalidXPlusY.remove(xPlusY);
+            }
+        }
+    }
+}
