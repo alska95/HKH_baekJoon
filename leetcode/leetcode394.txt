@@ -1,42 +1,76 @@
 class Solution {
-    public String decodeString(String s) {
-        return decode(1, "", "1[" + s + ']');
-    }
 
-    public String decode(int repeat, String prefix, String afterString) {
-        String nextPrefix = "";
-        for (int i = 0 ; i < afterString.length() ; i++) {
-            char currentChar = afterString.charAt(i);
-            if(currentChar == ']') {
-                if (i < afterString.length() - 1) {
-                    String nextAfterString = afterString.substring(i + 1, afterString.length());
-                    return prefix + decode(1, prefix, nextAfterString);
-                }
-                return repeatString(nextPrefix, repeat);
-            }
-            if(currentChar >= '0' && currentChar <= '9') {
-                String repeatBuffer = "" + currentChar;
-                i++;
-                while(afterString.charAt(i) >= '0' && afterString.charAt(i) <= '9') {
-                    repeatBuffer += afterString.charAt(i);
-                    i++;
-                }
-                int nextRepeat = Integer.parseInt(repeatBuffer);
-                String nextAfterString = afterString.substring(i + 1, afterString.length());
-                String completeString = prefix + decode(nextRepeat, nextPrefix, nextAfterString);
-                return repeatString(completeString, repeat);
+    class Entry {
+        int repeat = 0;
+        boolean leaf = false;
+        StringBuffer content = new StringBuffer(); //content only exists on leaf
+        List<Entry> childList = new ArrayList<>();
+
+        Entry () {
+        }
+
+        Entry (int repeat, boolean leaf, StringBuffer content) {
+            this.repeat = repeat;
+            this.leaf = leaf;
+            this.content = content;
+        }
+
+        public String toString() {
+            StringBuffer result = new StringBuffer();
+            if (leaf) {
+                result = content;
             } else {
-                nextPrefix += currentChar;
+                for (int i = 0; i < childList.size() ;i++) {
+                    result.append(childList.get(i).toString());
+                }
             }
+
+            StringBuffer finalResult = new StringBuffer();
+            for (int i = 0; i < repeat ; i++) {
+                finalResult.append(result);
+            }
+            return finalResult.toString();
         }
-        throw new IllegalArgumentException("no ']' at the end."); //doesn't happen
     }
 
-    public String repeatString(String target, int repeat) {
-        String answer = "";
-        for (int i = 0 ; i < repeat ; i++) {
-            answer += target;
+    public String decodeString(String s) {
+        Entry root = new Entry();
+        root.repeat = 1;
+        decode(root, "1[" + s + ']', 0);
+        return root.toString();
+    }
+
+    //meet number -> make child, add bufferString to leaf child
+    //meet ] -> leaf;
+    //meet alphabet -> add content;
+    public int decode(Entry parent, String target, int index) {
+        Entry current = new Entry();
+        parent.childList.add(current);
+        StringBuffer currentString = new StringBuffer();
+
+        for (int i = index ; i < target.length();) {
+            if (i == index) { //first is number
+                String repeatBuffer = "";
+                while (true) {
+                    repeatBuffer += target.charAt(i);
+                    if (target.charAt(++i) == '[') {
+                        i++;
+                        break;
+                    }
+                }
+                current.repeat = Integer.parseInt(repeatBuffer);
+            } else if (target.charAt(i) >= '0' && target.charAt(i) <= '9') { //child appear
+                current.childList.add(new Entry(1, true, currentString));
+                currentString = new StringBuffer();
+                i = decode(current, target, i);
+            } else if (target.charAt(i) == ']') {  //ends
+                current.childList.add(new Entry(1, true, currentString));
+                return i + 1;
+            } else { //alphabet add content
+                currentString.append(target.charAt(i));
+                i++;
+            }
         }
-        return answer;
+        return target.length();
     }
 }
